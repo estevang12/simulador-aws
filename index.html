@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Simulador AWS Cloud Practitioner</title>
+<style>
+body { font-family: Arial; margin: 20px; }
+.question { margin-bottom: 15px; }
+button { padding: 10px 20px; font-size: 16px; }
+</style>
+</head>
+<body>
+<h1>Simulador AWS Cloud Practitioner (50 preguntas)</h1>
+<form id="quizForm">
+<div id="quiz"></div>
+<button type="button" onclick="calcularResultado()">Enviar</button>
+</form>
+<h2 id="resultado"></h2>
+
+<script>
+const preguntas = [
+{q:"¿Qué es AWS?", o:["SO","Proveedor nube","Lenguaje","Servidor"], a:1},
+{q:"¿Qué servicio es almacenamiento de objetos?", o:["EC2","S3","RDS","Lambda"], a:1},
+{q:"¿Qué es EC2?", o:["DB","Computo","CDN","Red"], a:1},
+{q:"¿Qué es Lambda?", o:["Servidor","Serverless","Storage","DB"], a:1},
+{q:"¿Qué es una región?", o:["1 DC","Grupo AZ","Servidor","App"], a:1},
+{q:"¿Qué es AZ?", o:["Cluster","DC aislado","App","VM"], a:1},
+{q:"Servicio relacional?", o:["Dynamo","RDS","S3","EC2"], a:1},
+{q:"Servicio NoSQL?", o:["RDS","Dynamo","Aurora","MySQL"], a:1},
+{q:"¿Qué es VPC?", o:["VM","Red privada","DB","Storage"], a:1},
+{q:"CDN AWS?", o:["CloudFront","EC2","IAM","S3"], a:0},
+];
+
+// duplicar hasta 50
+while(preguntas.length < 50){ preguntas.push({...preguntas[preguntas.length%10]}); }
+
+const quizDiv = document.getElementById("quiz");
+
+preguntas.forEach((p, i) => {
+let html = `<div class='question'><b>${i+1}. ${p.q}</b><br>`;
+p.o.forEach((opt, j)=>{
+html += `<input type='radio' name='q${i}' value='${j}'> ${opt}<br>`;
+});
+html += "</div>";
+quizDiv.innerHTML += html;
+});
+
+function calcularResultado(){
+let score = 0;
+preguntas.forEach((p,i)=>{
+let r = document.querySelector(`input[name=q${i}]:checked`);
+if(r && parseInt(r.value) === p.a){ score++; }
+});
+document.getElementById("resultado").innerText = `Puntaje: ${score}/50`;
+}
+</script>
+</body>
+</html>
